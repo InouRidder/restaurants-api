@@ -10,10 +10,12 @@ raise 'No destroying the production databaseplease!' if Rails.env.production?
 
 puts "Emptying DB"
 
-User.destroy_all
 Restaurant.destroy_all
+User.destroy_all
 
 user = User.create(email: 'inou@gmail.com', password: 'password')
+
+User.create(email: 'haggis@gmail.com', password: 'password')
 
 10.times do |i|
   resto = Restaurant.create(
@@ -25,14 +27,30 @@ user = User.create(email: 'inou@gmail.com', password: 'password')
   puts "#{resto.name} created!"
 
   rand(10).times do
-    Comment.create(
+    Comment.create!(
       restaurant: resto,
-      content: Faker::Restaurant.review
+      content: Faker::Restaurant.review,
+      user: User.all.sample
     )
   end
 end
 
+# COMMENT
+    # t.text "content"
+    # t.bigint "restaurant_id"
+    # t.bigint "user_id"
 
 # t.string "name"
 #     t.string "address"
 #     t.bigint "user_id"
+
+
+
+
+
+
+
+
+
+
+
